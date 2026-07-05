@@ -152,10 +152,14 @@ func (f *YAMLFormatter) WriteFooter(w io.Writer) error {
 		first := true
 		for _, col := range f.columns {
 			if first {
-				fmt.Fprintf(w, "- %s: %v\n", col.Name, formatValue(row[col.Name]))
+				if _, err := fmt.Fprintf(w, "- %s: %v\n", col.Name, formatValue(row[col.Name])); err != nil {
+					return err
+				}
 				first = false
 			} else {
-				fmt.Fprintf(w, "  %s: %v\n", col.Name, formatValue(row[col.Name]))
+				if _, err := fmt.Fprintf(w, "  %s: %v\n", col.Name, formatValue(row[col.Name])); err != nil {
+					return err
+				}
 			}
 		}
 	}
@@ -174,14 +178,18 @@ func (f *MarkdownFormatter) WriteHeader(w io.Writer, columns []types.Column) err
 	for i, col := range columns {
 		parts[i] = col.Name
 	}
-	fmt.Fprintf(w, "| %s |\n", strings.Join(parts, " | "))
+	if _, err := fmt.Fprintf(w, "| %s |\n", strings.Join(parts, " | ")); err != nil {
+		return err
+	}
 
 	// Separator
 	seps := make([]string, len(columns))
 	for i := range seps {
 		seps[i] = "---"
 	}
-	fmt.Fprintf(w, "| %s |\n", strings.Join(seps, " | "))
+	if _, err := fmt.Fprintf(w, "| %s |\n", strings.Join(seps, " | ")); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -204,7 +212,9 @@ func (f *MarkdownFormatter) WriteFooter(w io.Writer) error {
 		for i, col := range cols {
 			parts[i] = formatValue(row[col])
 		}
-		fmt.Fprintf(w, "| %s |\n", strings.Join(parts, " | "))
+		if _, err := fmt.Fprintf(w, "| %s |\n", strings.Join(parts, " | ")); err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -218,11 +228,17 @@ type HTMLFormatter struct {
 
 func (f *HTMLFormatter) WriteHeader(w io.Writer, columns []types.Column) error {
 	f.columns = columns
-	fmt.Fprint(w, "<table>\n<thead>\n<tr>\n")
-	for _, col := range columns {
-		fmt.Fprintf(w, "  <th>%s</th>\n", col.Name)
+	if _, err := fmt.Fprint(w, "<table>\n<thead>\n<tr>\n"); err != nil {
+		return err
 	}
-	fmt.Fprint(w, "</tr>\n</thead>\n<tbody>\n")
+	for _, col := range columns {
+		if _, err := fmt.Fprintf(w, "  <th>%s</th>\n", col.Name); err != nil {
+			return err
+		}
+	}
+	if _, err := fmt.Fprint(w, "</tr>\n</thead>\n<tbody>\n"); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -233,13 +249,21 @@ func (f *HTMLFormatter) WriteRow(w io.Writer, row types.GeneratedRow, columns []
 
 func (f *HTMLFormatter) WriteFooter(w io.Writer) error {
 	for _, row := range f.rows {
-		fmt.Fprint(w, "<tr>\n")
-		for _, col := range f.columns {
-			fmt.Fprintf(w, "  <td>%s</td>\n", formatValue(row[col.Name]))
+		if _, err := fmt.Fprint(w, "<tr>\n"); err != nil {
+			return err
 		}
-		fmt.Fprint(w, "</tr>\n")
+		for _, col := range f.columns {
+			if _, err := fmt.Fprintf(w, "  <td>%s</td>\n", formatValue(row[col.Name])); err != nil {
+				return err
+			}
+		}
+		if _, err := fmt.Fprint(w, "</tr>\n"); err != nil {
+			return err
+		}
 	}
-	fmt.Fprint(w, "</tbody>\n</table>\n")
+	if _, err := fmt.Fprint(w, "</tbody>\n</table>\n"); err != nil {
+		return err
+	}
 	return nil
 }
 
