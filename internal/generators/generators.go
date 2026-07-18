@@ -533,9 +533,9 @@ type JSONGen struct{}
 func (g *JSONGen) Generate(rng *rand.Rand, params map[string]string) interface{} {
 	// Generate a simple nested JSON object
 	obj := map[string]interface{}{
-		"id":    rng.Intn(10000),
-		"name":  firstNames[rng.Intn(len(firstNames))],
-		"email": firstNames[rng.Intn(len(firstNames))] + "@example.com",
+		"id":     rng.Intn(10000),
+		"name":   firstNames[rng.Intn(len(firstNames))],
+		"email":  firstNames[rng.Intn(len(firstNames))] + "@example.com",
 		"active": rng.Intn(2) == 0,
 	}
 	return obj

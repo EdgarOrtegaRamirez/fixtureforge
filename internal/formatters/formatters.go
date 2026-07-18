@@ -70,9 +70,9 @@ func (f *CSVFormatter) WriteFooter(w io.Writer) error {
 // --- JSON Formatter ---
 
 type JSONFormatter struct {
-	array      bool
-	columns    []types.Column
-	rows       []types.GeneratedRow
+	array   bool
+	columns []types.Column
+	rows    []types.GeneratedRow
 }
 
 func (f *JSONFormatter) WriteHeader(w io.Writer, columns []types.Column) error {
@@ -222,7 +222,7 @@ func (f *MarkdownFormatter) WriteFooter(w io.Writer) error {
 // --- HTML Formatter ---
 
 type HTMLFormatter struct {
-	rows   []types.GeneratedRow
+	rows    []types.GeneratedRow
 	columns []types.Column
 }
 

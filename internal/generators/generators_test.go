@@ -548,9 +548,9 @@ func TestGenerateFromPattern(t *testing.T) {
 	rng := rand.New(rand.NewSource(42))
 
 	tests := []struct {
-		pattern  string
-		minLen   int
-		maxLen   int
+		pattern string
+		minLen  int
+		maxLen  int
 	}{
 		{"[abc]", 1, 1},
 		{"[0-9]", 1, 1},

@@ -43,10 +43,10 @@ func newRootCmd() *cobra.Command {
 
 func newGenerateCmd() *cobra.Command {
 	var (
-		count    int
-		format   string
-		seed     int64
-		columns  []string
+		count      int
+		format     string
+		seed       int64
+		columns    []string
 		schemaFile string
 	)
 

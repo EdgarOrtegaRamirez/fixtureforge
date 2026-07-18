@@ -258,9 +258,15 @@ func TestSQLFormatterNulls(t *testing.T) {
 	var buf bytes.Buffer
 	formatter, _ := New("sql")
 
-	if err := formatter.WriteHeader(&buf, testColumns); err != nil { t.Fatal(err) }
-	if err := formatter.WriteRow(&buf, types.GeneratedRow{"id": int64(1), "name": nil, "email": "test@test.com"}, testColumns); err != nil { t.Fatal(err) }
-	if err := formatter.WriteFooter(&buf); err != nil { t.Fatal(err) }
+	if err := formatter.WriteHeader(&buf, testColumns); err != nil {
+		t.Fatal(err)
+	}
+	if err := formatter.WriteRow(&buf, types.GeneratedRow{"id": int64(1), "name": nil, "email": "test@test.com"}, testColumns); err != nil {
+		t.Fatal(err)
+	}
+	if err := formatter.WriteFooter(&buf); err != nil {
+		t.Fatal(err)
+	}
 
 	output := buf.String()
 	if !strings.Contains(output, "NULL") {
